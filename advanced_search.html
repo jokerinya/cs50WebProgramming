@@ -5,24 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
-    <title>Google</title>
+    <title>Advance Search</title>
 </head>
 <body>
-    <div class="header">
-        <a href="image_search.html" target="_blank" rel="noopener noreferrer" class="top-links">Image Search</a>
-        <a href="advanced_searh.html" target="_blank" rel="noopener noreferrer" class="top-links">Advanced Search</a>
-
+    <div class="header header-search">
+        <img src="google-logo.png" alt="google-logo" width="90px" height="auto">
+        <a href="search.html" target="_blank" rel="noopener noreferrer" style="margin-right: 45;">Google Search</a>
     </div>
-    <div class="main">
-        <img src="google-logo.png" alt="google-logo" width="375px" height="auto">
-        <form action="https://google.com/search" autocomplete="off" class="form-container" >
-            <div class="input-container"> 
-                <i class="fa fa-search icon"></i> 
-                <input type="text" class="input-field" name="q">
+    <div class="upper-main">
+        <p>Advanced Search</p>
+    </div>
+    <div class="main advance-main">
+        <form class="grid" action="https://google.com/search" autocomplete="off" name="f">
+            <div class="grid-item">
+                <p class="grid-item_top">Find pages with...</p>
             </div>
-            <div class="buttons">
-                <input type="submit" class="form-buttons" value="Google Search">
-                <a href="https://google.com/doodles" class="form-buttons">I'm feeling lucky </a>
+            <div class="grid-item"></div>
+            <div class="grid-item extra">
+                <span>
+                    To do this in the search box.
+                </span>
+            </div>
+            <div class="grid-item">
+                <label for="as_q">
+                    all these words:
+                </label>
+            </div>
+            <div class="grid-item">
+                <input type="text" name="as_q">
+            </div>
+            <div class="grid-item extra">
+                <span class="extra_samples">
+                    Type the important words: tri-colour rat terrier
+                </span>
+            </div>
+            <div class="grid-item">
+                <label for="as_epq">
+                    this exact word or phrase:
+                </label>
+            </div>
+            <div class="grid-item">
+                <input type="text" name="as_epq">
+            </div>
+            <div class="grid-item extra">
+                <span class="extra_samples">
+                    Put exact words in quotes: "rat terrier"
+                </span>
+            </div>
+            <div class="grid-item">
+                <label for="as_oq">
+                    any of these words:
+                </label>
+            </div>
+            <div class="grid-item">
+                <input type="text" name="as_oq">
+            </div>
+            <div class="grid-item extra">
+                <span class="extra_samples">
+                    Type OR between all the words you want: miniature OR standard
+                </span>
+            </div>
+            <div class="grid-item">
+                <label for="as_eq">
+                    none of these words:
+                </label>
+            </div>
+            <div class="grid-item">
+                <input type="text" name="as_eq">
+            </div>
+            <div class="grid-item extra">
+                <span class="extra_samples">
+                    Put a minus sign just before words that you don't want: -rodent, -"Jack Russell"
+                </span>
+            </div>
+            <div class="submit">
+                <input type="submit" value="Advanced Search">
             </div>
         </form>
     </div>
