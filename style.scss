@@ -73,6 +73,10 @@ top-links:hover{
     color: #202124;
     cursor: pointer;
 }
+.form-buttons:focus{
+    border: 1px solid #4d90fe;
+    outline: none;
+}
 
 .icon { 
     position: absolute;
