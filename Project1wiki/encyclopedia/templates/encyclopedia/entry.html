@@ -5,6 +5,13 @@
 {% endblock %}
 
 {% block body %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         {{ result | safe }}
         <a class="btn btn-primary" href="{% url 'encyclopedia:edit' title %}" role="button">Edit</a>
 {% endblock %}

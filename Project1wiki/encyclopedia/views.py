@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from markdown2 import markdown
 from random import choice
+from django.contrib import messages
 
 
 from . import util
@@ -64,6 +65,8 @@ def create(request):
                 })
             else:
                 util.save_entry(title, content)
+                messages.success(
+                    request, f"You have made {title} entry successfully.")
                 # new created entry
                 # return HttpResponseRedirect(reverse("entry", args=[title]))
                 return redirect("encyclopedia:entry", title=title)
