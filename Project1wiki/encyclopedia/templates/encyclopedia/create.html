@@ -1,0 +1,27 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create New Entry
+{% endblock %}
+
+{% block body %}
+    {% if name_error %}
+        <h1>Create New Entry</h1>
+        <div class="alert alert-warning" role="alert">
+            Encyclopedia entry already exists with the provided title!
+        </div>
+    {% else %}
+    <h1 class="mb-5">Create New Entry</h1>
+    {% endif %}
+
+    <form action="{% url 'encyclopedia:create' %}" method="POST" class="mt-2">
+        {% csrf_token %}
+        <table>
+        {{ entry.as_table }}
+        </table>
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'encyclopedia:index' %}" class="btn btn-primary ml-3">Home</a>
+        </div>
+    </form>
+{% endblock %}
