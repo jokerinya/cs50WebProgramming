@@ -66,7 +66,7 @@ def create(request):
             else:
                 util.save_entry(title, content)
                 messages.success(
-                    request, f"You have made {title} entry successfully.")
+                    request, f"You have made {title} entry successfully.", extra_tags="extra-css-tag")
                 # new created entry
                 # return HttpResponseRedirect(reverse("entry", args=[title]))
                 return redirect("encyclopedia:entry", title=title)
