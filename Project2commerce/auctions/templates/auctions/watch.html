@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="col-md-12 col-xl-9 justify-content-center">
+        <div class="row">
+            {% for watching in watchings %}
+            <div class="col-sm-6 col-md-4 mb-4">
+                <div class="card">
+                    {% if watching.listing.image %}
+                    <img class="card-img-top" src="{{ watching.listing.image }}" alt="Card image cap">
+                    {% else %}
+                    <h3 class="p-3">Image not provided.</h3>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ watching.listing.title }}- ${{ watching.listing.price }}</h5>
+                        <p class="card-text">{{ watching.listing.description | truncatechars:50 }}</p>
+                        <a href="{% url 'auctions:detail' watching.listing.id %}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            {%empty%}
+            <h5>There is no item in your Watchlist.</h5>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

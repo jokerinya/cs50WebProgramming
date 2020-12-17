@@ -1,0 +1,129 @@
+{% extends "auctions/layout.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        {% comment %} Image and General Features {% endcomment %}
+        <div class="col-sm-12 col-md-6 mb-2">
+            <div class="card">
+                {% if listing.image %}
+                <img class="card-img-top" src="{{ listing.image }}" alt="Card image cap" width="400px" height="478px">
+                {% else %}
+                <h3 class="p-3">Image not provided.</h3>
+                {% endif %}
+                <div class="card-body">
+                    {% if listing.is_active %}
+                    <h4 class="card-title">{{ listing.title }} ${{ listing.price }}</h4>
+                    {% else %}
+                    <h4 class="card-title">{{ listing.title }} <span class="badge badge-secondary">CLOSED</span></h4>
+                    {% endif %}
+                    <h6 class="card-subtitle mb-2 text-muted">Listed at: {{ listing.created_at }}</h6>
+                    {% if listing.is_active  and user != listing.creater %}
+                    <form action="{% url 'auctions:watch' %}" class="card-item form-inline justify-content-center mt-4" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ listing.id }}">
+                        {% if watching.watching %}
+                        <button type="submit" class="btn btn-warning">Remove from your Watchlist</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-success">Add to your Watchlist</button>
+                        {% endif %}
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% comment %} Details Section {% endcomment %}
+        <div class="col-sm-12 col-md-6 mt-2">
+            <h3 class="text-primary font-weight-bold">Product Features</h3>
+            {% if listing.is_active %}
+            <h5>{{listing.title}} ${{ listing.price}}</h5>
+            {% else %}
+            <h5>{{listing.title}} - <span class="badge badge-secondary">CLOSED</span></h5>
+            {% endif %}
+            {% if watching.watching %}
+                <small>This product is on your <span class="badge badge-success">Watchlist.</span></small>
+            {% endif %}
+            <p>Categories:
+                {% for category in categories %}
+                    <span class="badge badge-{{ color | random }}">{{ category }}</span>
+                {%empty %}
+                    None
+                {% endfor %}
+            <small class="d-block text-muted font-weight-bold">Added by {{ listing.creater }} | {{ listing.created_at | timesince }} ago.</small>
+            </p>
+            <ul>
+                <li>Until this time, {{ listing.bids.count }} bid(s) have been done.</li>
+                <li>Features: {{ listing.description }}</li>
+            </ul>
+            {% if user != listing.creater %}
+                {% if user.is_authenticated  and listing.is_active %}
+                    {% if bid_done %}
+                        <small class="bg-success text-white">You made an offer before.</small>
+                    {% endif %}
+                    {%if message %}
+                        <div class="p-2 mb-1 bg-danger text-white">{{ message }}</div>
+                    {% endif %}
+                    <form action="{% url 'auctions:detail' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                    <input class="btn btn-primary" type="submit" value="Bid Now">
+                    </form>
+                {% endif %}
+            {% endif %}
+            {% comment %} Bid Closing {% endcomment %}
+            {% if listing.is_active and listing.creater == user %}
+                <form action="{% url 'auctions:close' listing.id %}" class="mt-4" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="close" value="close">
+                    <button type="submit" class="btn btn-danger">Close Bid</button>
+                </form>
+            {% elif listing.is_active == False and listing.creater == user%}
+                <h3 class="text-info">{{ winner}} has won. Price: ${{ listing.price }}</h3>
+            {% endif %}
+            {% comment %} Winner {% endcomment %}
+            {% if winner == user %}
+                <h3 class="text-success">You have won! Price: ${{listing.price}}</h3>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% comment %} Comments Section {% endcomment %}
+<div class="container mt-4">
+    <div class="row justify-content-center mb-3 mt-5 border-top">
+        <h2 class="text-primary">Comments About The Product</h2>
+        {% lorem %}
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-6">
+            {% for comment in comments %}
+            <div class="col-sm-12">
+                <p class="">
+                <small>
+                {{ comment.user }} | wrote {{ comment.created_at | timesince }} ago: <br>
+                </small>
+                {{ comment.comment }}
+                </p>
+            </div>
+                
+            {%empty%}
+             <h4 class="d-block font-italic">There is no comment for this product.</h4>
+            {% endfor %}
+        </div>
+        {% if user.is_authenticated %}
+        <div class="col-sm-12 col-md-6">
+            <h4>Make Your Comment</h4>
+            <form action="{% url 'auctions:comment' listing.id %}" method="post">
+            {% csrf_token %}
+                {{comment_form | crispy }}
+                <input class="btn btn-primary" type="submit" value="Make Comment">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="col-md-12 col-xl-9 justify-content-center">
+        <div class="row">
+            {% for listing in listings %}
+            <div class="col-sm-6 col-md-4 mb-4">
+                <div class="card">
+                    {% if listing.image %}
+                    <img class="card-img-top" src="{{ listing.image }}" alt="Card image cap">
+                    {% else %}
+                    <h3 class="p-3">Image not provided.</h3>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ listing.title }}- ${{ listing.price }}</h5>
+                        <p class="card-text">{{ listing.description | truncatechars:50 }}</p>
+                        <a href="{% url 'auctions:detail' listing.id %}" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

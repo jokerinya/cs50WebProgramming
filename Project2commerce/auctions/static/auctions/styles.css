@@ -1,0 +1,12 @@
+*{
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+
+a.my_header-link{
+    text-decoration: none;
+    color: white;
+    font-weight: bolder;
+}

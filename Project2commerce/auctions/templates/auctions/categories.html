@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="col-sm-6 justify-content-center">
+        <h3>Categories</h3>
+        <div class="list-group">
+        {% for category in categories %}
+            <a href="{% url 'auctions:category_list' category.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">{{ category }}
+                <span class="badge badge-primary badge-pill">{{ category.listings.count }}</span>
+            </a>
+            
+        {% endfor %}
+        </div>
+
+    </div>
+{% endblock body %}
