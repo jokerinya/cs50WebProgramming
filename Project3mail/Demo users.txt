@@ -1,0 +1,3 @@
+test@test.com/8989yhnbvg
+test2@test2.com/8989yhnbvg
+admin@test.com/8989yhnbvg (Also Django admin)
