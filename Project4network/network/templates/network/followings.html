@@ -1,0 +1,15 @@
+{% extends "network/layout.html" %}
+
+{% block body %} 
+  {% if user.is_authenticated %}
+    <h2>Followings - {{followings.count}}</h2>
+    <ul>Users
+    {% for following in followings %}
+      <li>{{ following.email }} - {{ following.username}}</li>
+    {% endfor %}
+    </ul>
+
+  {% endif %}
+
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -61,3 +62,13 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+@login_required(login_url="/login")
+def following_view(request):
+    if request.method == "GET":
+        user = request.user
+        followings = user.following_users.all()  # Here pagination & User posts should be sent !!!
+        context = {
+            "followings" : followings
+        }
+        return render(request, "network/followings.html", context)
