@@ -1,0 +1,12 @@
+textarea#id_post {
+  height: 4em;
+  width: -webkit-fill-available;
+}
+
+ul {
+  list-style: none;
+}
+
+.authenticated_heart {
+  cursor: pointer;
+}

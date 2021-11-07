@@ -3,7 +3,8 @@
 {% block body %} 
   {% if user.is_authenticated %}
     <h2>Followings - {{followings.count}}</h2>
-    <ul>Users
+    <h3>Users</h3>
+    <ul>
     {% for following in followings %}
       <li>{{ following.email }} - {{ following.username}}</li>
     {% endfor %}
