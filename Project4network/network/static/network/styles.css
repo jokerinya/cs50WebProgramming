@@ -10,3 +10,15 @@ ul {
 .authenticated_heart {
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+.red {
+  color: red;
+}

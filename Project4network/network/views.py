@@ -12,7 +12,10 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import User, Post
 
 class NewPostForm(forms.Form):
-    post = forms.CharField(widget=forms.Textarea,label="New Post", max_length=280)
+    post = forms.CharField(widget=forms.Textarea(attrs={
+        'class':'form-control',
+        'placeholder':'Write your new post here'
+        }),label="New Post", max_length=280)
 
 
 def index(request):
@@ -37,7 +40,7 @@ def index(request):
     # Pagination #
     # Will send always this part
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, 3)  # Show 10 posts per page
+    paginator = Paginator(post_list, 10)  # Show 10 posts per page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -118,7 +121,7 @@ def following_view(request):
 
 @csrf_exempt
 @login_required(login_url="/login")
-def post_like_view(request, post_id):
+def post_edit_view(request, post_id):
     # Query for requested post
     try:
         user = request.user
@@ -134,6 +137,11 @@ def post_like_view(request, post_id):
                 post.liked_users.add(user)
             else:
                 post.liked_users.remove(user)
+        if data.get("edittedPost") is not None:
+            editted_post = data["edittedPost"]
+            if len(editted_post) > 280 or len(editted_post) == 0:
+                return JsonResponse({"error": "Post is not valid."}, status=422)
+            post.content = editted_post
         post.save()
         likeNum = post.liked_users.count()
-        return JsonResponse({"likeNum": likeNum}, status=201)
+        return JsonResponse({"likeNum": likeNum, "postRecorded": True}, status=201)

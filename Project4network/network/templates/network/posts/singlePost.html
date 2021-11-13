@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">{{ post.creater.username}} wrote at {{ post.create_time }}</h6>
+        <p class="card-text font-italic" postId="{{post.id}}">{{ post.content }}</p>
+        {% if user == post.creater %}
+        <div class="form-group hidden" postId="{{post.id}}">
+            <label for="{{post.id}}" class="font-weight-bold">Edit Your Post</label>
+            <textarea class="form-control mb-1" id="{{post.id}}" postId="{{post.id}}" rows="3"></textarea>
+            <button class="btn btn-primary btn-sm edit_send_btn" postId="{{post.id}}">Post</button>
+            <button class="btn btn-danger btn-sm edit_close_btn" postId="{{post.id}}">Close</button>
+        </div>
+        {% endif %}
+        {% comment %} Like/Unlike Heart {% endcomment %}
+        <p class="like_heart d-inline p-2">
+            {% if user in post.liked_users.all %}
+            <i class="fa fa-heart red" postId={{post.id}}></i>
+            {% else %}
+            <i class="fa fa-heart-o" postId={{post.id}}></i> 
+            {% endif %}
+            <span postId={{post.id}}>{{ post.liked_users.count}} </span> likes
+        </p>
+        {% comment %} Edit Post {% endcomment %}
+        {% if user == post.creater %}
+            <a class="btn btn-secondary btn-sm edit_btn" postId={{post.id}}>
+                <i class="fa fa-pencil fa-fw"></i> Edit
+            </a>
+        {% endif %}
+    </div>
+</div>
+<hr>
