@@ -149,3 +149,49 @@ def post_edit_view(request, post_id):
         post.save()
         likeNum = post.liked_users.count()
         return JsonResponse({"likeNum": likeNum, "postRecorded": True}, status=201)
+    # Must PUT method
+    else:
+        return JsonResponse({"error": "PUT request required."}, status=400)
+
+@login_required(login_url="/login")
+def profile_view(request):
+    if request.method == "GET":
+        user = request.user
+        posts = user.posts.all()
+        users = User.objects.exclude(id=user.id).exclude(is_superuser=True)
+        context = {
+            "user": user,
+            "users": users,
+            "posts" : post_pagination(posts, request.GET.get('page'))
+        }
+        return render(request, "network/profile.html", context)
+
+@csrf_exempt
+@login_required(login_url="/login")
+def user_follow_view(request, user_id):
+    try:
+        user = request.user
+        fuser = User.objects.get(id=user_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+    # Users cannot follow themselves
+    if user == fuser:
+        return JsonResponse({"error": "Users cannot follow themselves."}, status=404)
+
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        result = {}
+        if data.get("willFollow") is not None:
+            user_willfollow_fuser = data["willFollow"]  # will be True or False
+            if user_willfollow_fuser:
+                user.following_users.add(fuser)
+                result["isFollowing"] = True
+            else:
+                user.following_users.remove(fuser)
+                result["isFollowing"] = False
+            result["followings"] = user.following_users.count()
+            result["followers"] = user.followers.count()
+        return JsonResponse(result, status=201)
+    # Must PUT method
+    else:
+        return JsonResponse({"error": "PUT request required."}, status=400)

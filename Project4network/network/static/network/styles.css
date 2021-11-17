@@ -22,3 +22,8 @@ ul {
 .red {
   color: red;
 }
+
+.follow-button {
+  position: absolute;
+  right: 0.5rem;
+}
