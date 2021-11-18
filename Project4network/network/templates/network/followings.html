@@ -6,7 +6,7 @@
     {% if followings == 0 %}
       <h3 class="text-center">You are not following anybody yet!</h3>
     {% else %}
-      <h3 class="text-center">Followings</h3>
+      <h3 class="text-center">Followings {{ followings}}</h3>
     {% comment %} Posts  {% endcomment %}
     <div class="container">
         {% for post in posts %}
